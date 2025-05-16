@@ -1,7 +1,7 @@
 from flask import jsonify
 from config import get_db_connection
 
-def ajouter_prompt(user, data):
+def ajouter_prompt(id_utilisateur, data):
     titre = data.get("titre")
     contenu = data.get("contenu")
 
@@ -14,11 +14,12 @@ def ajouter_prompt(user, data):
         cur.execute("""
             INSERT INTO prompts (titre, contenu, id_auteur, prix, etat)
             VALUES (%s, %s, %s, %s, %s)
-        """, (titre, contenu, user["id"], 1000, 'en_attente'))
+        """, (titre, contenu, id_utilisateur, 1000, 'en_attente'))
 
         conn.commit()
         cur.close()
         conn.close()
+
         return jsonify({"message": "Prompt ajouté avec succès"}), 201
 
     except Exception as e:

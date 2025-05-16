@@ -50,7 +50,8 @@ def connecter_utilisateur(data):
         conn.close()
 
         if utilisateur and check_password_hash(utilisateur[2], mot_de_passe):
-            token = create_access_token(identity={"id": utilisateur[0], "nom": utilisateur[1], "role": utilisateur[3]})
+            token = create_access_token(identity=str(utilisateur[0]))  # id_utilisateur en string ✅
+
             return jsonify({"token": token}), 200
         else:
             return jsonify({"erreur": "Identifiants invalides"}), 401
